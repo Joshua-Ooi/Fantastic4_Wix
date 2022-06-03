@@ -1,0 +1,47 @@
+import wixData from 'wix-data';
+import wixLocation from 'wix-location';
+
+$w("#adminlogin").onClick((event) => {
+   if( $w('#adminusername').valid && $w('#adminpasswrd').valid ) {
+      $w('#errmsg').hide();
+      $w('#box1').hide();
+      wixData.query("Admins")
+  .eq("adminUsername", $w('#adminusername').value)   
+  .find()
+  .then( (results) => {
+    if(results.items.length > 0) {
+    let items = results.items[0];
+      let password = items.adminPassword; // password field
+      
+      //here (below) we are adding code
+
+      
+if (password === $w('#adminpasswrd').value) {  // password
+
+
+
+//here (below) we are adding code
+console.log("Logged In");
+ wixLocation.to(`/admins-1-1`);
+ }
+ else{
+   console.log("Password mismatch");
+   $w('#errmsg').text = "Wrong Username or Password. Please Try Again";
+    $w('#errmsg').show();
+   $w('#box1').show();
+ }
+}else {
+console.log("Username does not exist");
+$w('#errmsg').text = "Username does not exist";
+$w('#errmsg').show();
+$w('#box1').show();
+}
+  })
+    }
+    else{
+      $w('#errmsg').text = "Invalid input for Username or Password, please enter only alphabets and numbers";
+      $w('#errmsg').show();
+      $w('#box1').show();
+    }
+
+})
