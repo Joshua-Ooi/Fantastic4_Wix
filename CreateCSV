@@ -1,0 +1,16 @@
+
+import wixData from 'wix-data';
+
+
+$w("#exportButton").onClick((event) => {
+  let collection = $w("#collectionInput").value;
+ 
+  wixData.query(collection)
+    .find()
+    .then( (results) => {
+      $w("#textBox1").value = JSON.stringify(results.items);
+    } )
+    .catch( (err) => {
+      console.log(err);
+    } );
+})
