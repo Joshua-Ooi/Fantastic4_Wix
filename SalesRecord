@@ -1,0 +1,29 @@
+
+import wixData from 'wix-data';
+
+export function button5_click_1(event) {
+ search();	
+}
+
+function search() {
+    wixData.query("SalesRecord")
+    .contains("orderMonth", String($w("#dropdown1").value))
+    .find()
+    .then(results =>{
+        $w("#listRepeater").data = results.items;
+        $w('#button5').hide();
+        $w("#button6").show();
+        $w("#button6").enable();
+    });
+    
+}
+
+
+
+
+export function button6_click_1(event) {
+$w('#dropdown1').value = undefined;
+    $w('#button6').hide();
+    $w('#button5').show();
+    
+}
