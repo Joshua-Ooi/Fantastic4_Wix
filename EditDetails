@@ -1,0 +1,52 @@
+import wixData from 'wix-data';
+import wixLocation from 'wix-location';
+
+$w("#button5").onClick((event) => {
+   if( $w('#loginEmail').valid && $w('#loginPassword').valid ) {
+      $w('#errmsg').hide();
+      $w('#box1').hide();
+      wixData.query("MembersDatabase")
+  .eq("username", $w('#loginEmail').value)   
+  .find()
+  .then( (results) => {
+    if(results.items.length > 0) {
+    let items = results.items[0];
+      let password = items.password; // password field
+	    let loggedID = items.memberId; 
+      
+      //here (below) we are adding code
+		let link = `${loggedID}`
+      
+if (password === $w('#loginPassword').value) {  // password
+
+
+
+//here (below) we are adding code
+console.log("Logged In");
+  wixLocation.to(`/members-database/${link}`);
+ }
+ else{
+   console.log("Password mismatch");
+   $w('#errmsg').text = "Wrong Username or Password. Please Try Again";
+    $w('#errmsg').show();
+   $w('#box1').show();
+ }
+}else {
+console.log("Username does not exist");
+$w('#errmsg').text = "Username does not exist";
+$w('#errmsg').show();
+$w('#box1').show();
+}
+  })
+    }
+    else{
+      $w('#errmsg').text = "Invalid input for Username or Password, please enter only alphabets and numbers";
+      $w('#errmsg').show();
+      $w('#box1').show();
+    }
+
+})
+
+export function captcha1_verified() {
+	$w('#button5').show()
+}
